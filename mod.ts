@@ -4,6 +4,10 @@ import {
     groupBy,
     mergeMap,
     toArray,
+    merge,
+    Subject,
+    AsyncSubject,
+    BehaviorSubject,
 } from "https://esm.sh/rxjs@7.8.2"
 
 const a =
@@ -15,3 +19,22 @@ const a =
     )
 
 a.subscribe(console.log)
+
+const s1 = new Subject<string>()
+const s2 = new BehaviorSubject<string>("s2 init")
+
+const b = merge(
+    s1,
+    s2,
+)
+
+s1.next("you can't see this")
+s2.next("s2 what")
+s2.next("s2 what")
+
+b.subscribe(console.log)
+
+s1.next("s1 hi")
+s2.next("s2 hi")
+s1.next("s1 hi")
+s2.next("s2 hi")
